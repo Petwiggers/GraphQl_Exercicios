@@ -25,11 +25,18 @@ const PostType = new GraphQLObjectType({
 });
 
 const RootQueryType = new GraphQLObjectType({
-  name: 'GetUsers',
+  name: 'Rede_Social',
   fields: () => ({
     user: {
       type: UserType,
-      resolve: () => data.GetUser(),
+      args: {
+        id: { type: GraphQLInt },
+      },
+      resolve: (parent, args) => data.GetUser(args.id),
+    },
+    users: {
+      type: new GraphQLList(UserType),
+      resolve: () => data.GetUsers(),
     },
     posts: {
       type: new GraphQLList(PostType),

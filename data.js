@@ -1,9 +1,29 @@
-const user = {
-  id: 1,
-  name: 'Peterson Wiggers',
-  yers: 19,
-  profession: 'Programador',
-};
+const users = [
+  {
+    id: 1,
+    name: 'Peterson Wiggers',
+    age: 19,
+    profession: 'Programador',
+  },
+  {
+    id: 2,
+    name: 'Maria Eduarda',
+    age: 17,
+    profession: 'Jovem Aprendiz',
+  },
+  {
+    id: 3,
+    name: 'Jocelma Ramos',
+    age: 42,
+    profession: 'Funcionária Pública',
+  },
+  {
+    id: 4,
+    name: 'Riquelme dos Santos',
+    age: 31,
+    profession: 'Professor',
+  },
+];
 
 const posts = [
   {
@@ -36,12 +56,17 @@ function GetAllPosts() {
   return posts;
 }
 
-function GetUser() {
-  return user;
+function GetUser(id) {
+  return users.find((x) => x.id === id);
+}
+
+function GetUsers() {
+  return users;
 }
 
 // export { GetAllPosts, GetUser, user, posts };
 module.exports = {
   GetAllPosts,
   GetUser,
+  GetUsers,
 };
