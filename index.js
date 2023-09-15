@@ -1,14 +1,8 @@
 const express = require('express');
 const app = express();
 const { graphqlHTTP } = require('express-graphql');
-const { GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLInt } = require('graphql');
-
-const user = {
-  id: 1,
-  name: 'Peterson Wiggers',
-  yers: 19,
-  profession: 'Programador',
-};
+const { GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLInt, GraphQLList } = require('graphql');
+const data = require('./data.js');
 
 const UserType = new GraphQLObjectType({
   name: 'User',
@@ -20,12 +14,26 @@ const UserType = new GraphQLObjectType({
   }),
 });
 
+const PostType = new GraphQLObjectType({
+  name: 'Post',
+  fields: () => ({
+    id: { type: GraphQLInt },
+    title: { type: GraphQLString },
+    content: { type: GraphQLString },
+    publishDate: { type: GraphQLString },
+  }),
+});
+
 const RootQueryType = new GraphQLObjectType({
   name: 'GetUsers',
   fields: () => ({
     user: {
       type: UserType,
-      resolve: () => user,
+      resolve: () => data.GetUser(),
+    },
+    posts: {
+      type: new GraphQLList(PostType),
+      resolve: () => data.GetAllPosts(),
     },
   }),
 });
