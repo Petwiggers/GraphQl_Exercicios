@@ -64,9 +64,15 @@ function GetUsers() {
   return users;
 }
 
+function ModifyTitlePost(title, id) {
+  posts[id].title = title;
+  return posts[id];
+}
+
 // export { GetAllPosts, GetUser, user, posts };
 module.exports = {
   GetAllPosts,
   GetUser,
   GetUsers,
+  ModifyTitlePost,
 };

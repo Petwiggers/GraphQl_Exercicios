@@ -24,7 +24,7 @@ const PostType = new GraphQLObjectType({
   }),
 });
 
-const RootQueryType = new GraphQLObjectType({
+const Query = new GraphQLObjectType({
   name: 'Rede_Social',
   fields: () => ({
     user: {
@@ -45,8 +45,30 @@ const RootQueryType = new GraphQLObjectType({
   }),
 });
 
+const Mutations = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: () => ({
+    ModifyTitlePosts: {
+      type: PostType,
+      args: {
+        id: { type: GraphQLInt },
+        title: { type: GraphQLString },
+      },
+      resolve: (parent, args) => {
+        console.log(args.title, args.id);
+        post = data.ModifyTitlePost(args.title, args.id);
+        return {
+          id: post.id,
+          title: post.title,
+        };
+      },
+    },
+  }),
+});
+
 const schema = new GraphQLSchema({
-  query: RootQueryType,
+  query: Query,
+  mutation: Mutations,
 });
 
 app.use(
