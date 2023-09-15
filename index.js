@@ -1,7 +1,14 @@
 const express = require('express');
 const app = express();
 const { graphqlHTTP } = require('express-graphql');
-const { GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLInt, GraphQLList } = require('graphql');
+const {
+  GraphQLObjectType,
+  GraphQLSchema,
+  GraphQLString,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLEnumType,
+} = require('graphql');
 const data = require('./data.js');
 
 const UserType = new GraphQLObjectType({
@@ -24,15 +31,40 @@ const PostType = new GraphQLObjectType({
   }),
 });
 
+// Define um enum para representar os códigos de status personalizados
+const StatusEnum = new GraphQLEnumType({
+  name: 'Status',
+  values: {
+    SUCCESS: { value: 'success' },
+    ERROR: { value: 'error' },
+  },
+});
+
+// Define um tipo para representar a resposta
+const ResponseType = new GraphQLObjectType({
+  name: 'Response',
+  fields: () => ({
+    status: { type: StatusEnum },
+    message: { type: GraphQLString },
+    data: { type: UserType }, // Pode ser qualquer tipo de dado
+  }),
+});
+
 const Query = new GraphQLObjectType({
   name: 'Rede_Social',
   fields: () => ({
     user: {
-      type: UserType,
+      type: ResponseType,
       args: {
         id: { type: GraphQLInt },
       },
-      resolve: (parent, args) => data.GetUser(args.id),
+      resolve: (parent, args) => {
+        const user = data.GetUser(args.id);
+        if (!user) {
+          return { status: 'error', message: 'User not found', data: null };
+        }
+        return { status: 'success', message: 'successful operation', data: user };
+      },
     },
     users: {
       type: new GraphQLList(UserType),
