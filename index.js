@@ -18,6 +18,7 @@ const UserType = new GraphQLObjectType({
     name: { type: GraphQLString },
     yers: { type: GraphQLInt },
     profession: { type: GraphQLString },
+    email: { type: GraphQLString },
   }),
 });
 
@@ -93,6 +94,30 @@ const Mutations = new GraphQLObjectType({
           id: post.id,
           title: post.title,
         };
+      },
+    },
+    PostUser: {
+      type: ResponseType,
+      args: {
+        id: { type: GraphQLInt },
+        name: { type: GraphQLString },
+        age: { type: GraphQLInt },
+        profession: { type: GraphQLString },
+        email: { type: GraphQLString },
+      },
+      resolve: (parent, args) => {
+        const user = {
+          id: args.id,
+          name: args.name,
+          age: args.age,
+          profession: args.profession,
+          email: args.email,
+        };
+        const result = data.PostUser(user);
+        if (!result) {
+          return { status: 'error', message: 'Invalid data', data: null };
+        }
+        return { status: 'success', message: 'Successful operation', data: user };
       },
     },
   }),

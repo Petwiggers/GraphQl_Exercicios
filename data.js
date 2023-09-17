@@ -69,10 +69,23 @@ function ModifyTitlePost(title, id) {
   return posts[id];
 }
 
-// export { GetAllPosts, GetUser, user, posts };
+function PostUser(user) {
+  if (!emailValidation(user.email)) {
+    return false;
+  }
+  users.push(user);
+  return true;
+}
+
+function emailValidation(email) {
+  var re = /\S+@\S+\.\S+/;
+  return re.test(email);
+}
+
 module.exports = {
   GetAllPosts,
   GetUser,
   GetUsers,
   ModifyTitlePost,
+  PostUser,
 };
