@@ -32,6 +32,15 @@ const PostType = new GraphQLObjectType({
   }),
 });
 
+const BookType = new GraphQLObjectType({
+  name: 'Book',
+  fields: () => ({
+    id: { type: GraphQLInt },
+    title: { type: GraphQLString },
+    authorId: { type: GraphQLInt },
+  }),
+});
+
 // Define um enum para representar os códigos de status personalizados
 const StatusEnum = new GraphQLEnumType({
   name: 'Status',
@@ -74,6 +83,13 @@ const Query = new GraphQLObjectType({
     posts: {
       type: new GraphQLList(PostType),
       resolve: () => data.GetAllPosts(),
+    },
+    getAuthorBooks: {
+      type: new GraphQLList(BookType),
+      args: {
+        id: { type: GraphQLInt },
+      },
+      resolve: (parents, args) => data.getAuthorBooks(args.id),
     },
   }),
 });

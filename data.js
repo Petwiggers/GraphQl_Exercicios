@@ -52,6 +52,39 @@ const posts = [
   },
 ];
 
+const books = [
+  {
+    id: 1,
+    title: 'Roemue e Julieta',
+    authorId: 1,
+  },
+  {
+    id: 2,
+    title: 'Harry Pother',
+    authorId: 1,
+  },
+  {
+    id: 3,
+    title: 'O poder do Hábito',
+    authorId: 2,
+  },
+  {
+    id: 4,
+    title: 'O homem mais rico da Babilônia',
+    authorId: 2,
+  },
+  {
+    id: 5,
+    title: 'Pai Rico, Pai Pobre',
+    authorId: 4,
+  },
+  {
+    id: 6,
+    title: '15 Regras para a vida',
+    authorId: 4,
+  },
+];
+
 function GetAllPosts() {
   return posts;
 }
@@ -77,6 +110,10 @@ function PostUser(user) {
   return true;
 }
 
+function getAuthorBooks(id) {
+  return books.filter((book) => book.authorId == id);
+}
+
 function emailValidation(email) {
   var re = /\S+@\S+\.\S+/;
   return re.test(email);
@@ -88,4 +125,5 @@ module.exports = {
   GetUsers,
   ModifyTitlePost,
   PostUser,
+  getAuthorBooks,
 };
